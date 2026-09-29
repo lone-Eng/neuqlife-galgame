@@ -1,0 +1,38 @@
+/* ============================================================
+   东秦校园人生 · 基础样式
+   重置 / 页面外壳 / 通用弹窗 / 走马灯新闻
+   由原 style.css 拆分而来（对应原 1-3, 54-73, 233-242 行）
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',sans-serif;background:linear-gradient(135deg,#e8e0d5,#d5cfc6 30%,#e0d8cc 60%,#ebe4d8);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:10px;color:#2c2416;}
+#game-container{width:100%;max-width:800px;background:#fefcf7;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 1px 4px rgba(0,0,0,.06);overflow:hidden;margin:10px 0;}
+.popup-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:1000;animation:fadeIn .2s ease;}
+.popup-box{background:#fefcf7;border-radius:14px;padding:24px 22px 20px;max-width:420px;width:92%;box-shadow:0 8px 32px rgba(0,0,0,.25);animation:slideUp .25s ease;}
+.popup-box .popup-title{font-size:1.1em;font-weight:700;color:#1a3a5c;margin-bottom:14px;text-align:center;}
+.popup-box .popup-result{font-size:.92em;color:#3d3226;line-height:1.7;margin-bottom:14px;text-align:center;}
+.popup-box .popup-changes{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:4px;}
+.popup-box .popup-changes .chg-item{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:20px;font-size:.88em;font-weight:600;}
+.popup-box .popup-changes .chg-item.pos{background:#e8f5e9;color:#1e7e34;}
+.popup-box .popup-changes .chg-item.neg{background:#fdecea;color:#c0392b;}
+.popup-box .popup-hidden{background:#fffef5;border-left:4px solid #c9a96e;padding:10px 14px;border-radius:6px;margin:10px 0;font-size:.86em;color:#6b5f50;text-align:center;}
+.popup-box .popup-btn{display:block;width:100%;margin-top:16px;padding:12px;font-size:1em;font-family:inherit;font-weight:600;background:#1a3a5c;color:#f0e6d3;border:none;border-radius:8px;cursor:pointer;text-align:center;transition:all .15s ease;}
+.popup-box .popup-btn:hover{background:#1e4468;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.phase-tag{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.76em;font-weight:600;margin-bottom:6px;}
+.phase-tag.main{background:#e3f0fa;color:#1a3a5c;}
+.phase-tag.random{background:#fff3e0;color:#e67e22;}
+.phase-tag.evening{background:#ede7f6;color:#5e35b1;}
+.phase-tag.auto{background:#e8f5e9;color:#2e7d32;}
+.phase-tag.love{background:#fce4ec;color:#c62828;}
+.phase-tag.special{background:#fff9c4;color:#f57f17;}
+/* 新闻联播 */
+#news-ticker{position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#c9b87e;font-size:.76em;padding:4px 0;z-index:98;overflow:hidden;border-top:1px solid #333}
+#news-ticker span{display:inline-block;white-space:nowrap;animation:scrollNews 50s linear infinite}
+#news-ticker .news-date{color:#e6a817;margin-right:10px;font-weight:600}
+@keyframes scrollNews{0%{transform:translateX(100%)}100%{transform:translateX(-50%)}}
+
+#news-ticker{position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#c9b87e;font-size:.82em;padding:8px 0;z-index:98;overflow:hidden;border-top:1px solid #333}
+#news-ticker .news-wrap{display:inline-block;white-space:nowrap;animation:scrollNews 60s linear infinite;padding-left:100%}
+#news-ticker .news-date{color:#e6a817;margin-right:16px;font-weight:600}
+@keyframes scrollNews{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}

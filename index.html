@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="东秦校园人生 · 视觉小说 —— 大学生涯模拟">
+<title>东秦校园人生 · Galgame</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/panels.css">
+<link rel="stylesheet" href="css/vn.css">
+</head>
+<body>
+
+<!-- ============================================================
+     VN 舞台：背景 → 立绘 → CG → 特效 → 暗角 → 对话框 / 选项 / HUD
+     ============================================================ -->
+<div id="game-container">
+<div id="vn-stage">
+
+  <!-- 背景层（双缓冲，用于淡入淡出切换） -->
+  <div id="vn-bg-layer">
+    <div class="vn-bg" id="vn-bg-a"></div>
+    <div class="vn-bg" id="vn-bg-b"></div>
+  </div>
+
+  <!-- 立绘层 -->
+  <div id="vn-sprite-layer"></div>
+
+  <!-- CG 插图层 -->
+  <div id="vn-cg-layer"></div>
+
+  <!-- 粒子 / 闪光 / 转场特效层 -->
+  <div id="vn-fx-layer"></div>
+
+  <!-- 暗角与聚光灯 -->
+  <div id="vn-vignette"></div>
+
+  <!-- 日期 / 章节标题卡 -->
+  <div id="vn-title-card"></div>
+
+  <!-- 标题画面与开局属性分配（复用同一容器） -->
+  <div id="vn-title-screen" class="vn-ui" style="display:none"></div>
+
+  <!-- 对话框 -->
+  <div id="vn-dialogue">
+    <div id="vn-nameplate"><span id="vn-name"></span></div>
+    <div id="vn-text"></div>
+    <div id="vn-next">▼</div>
+  </div>
+
+  <!-- 选项区 -->
+  <div id="vn-choices"></div>
+
+  <!-- 工具栏与属性面板由 vn/hud.js 动态挂载 -->
+
+  <!-- 弹窗 / 回想 / 设置 / 画廊 / 存档 / 地图 -->
+  <div id="vn-overlay-layer"></div>
+
+  <!-- 兼容层：保留原引擎依赖的容器 id，避免残留调用报错（永不显示） -->
+  <div id="vn-legacy" aria-hidden="true">
+    <div id="main-area"></div>
+    <div id="story-text"></div>
+    <div id="choices-area"></div>
+    <div id="bottom-bar"></div>
+  </div>
+
+  <!-- 校园新闻走马灯 -->
+  <div id="news-ticker" class="vn-ui" style="display:none"><span id="news-text"></span></div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     脚本加载顺序说明
+     1. 数据与逻辑模块（由原 script.js 按原顺序拆分而来，保证
+        顶层执行顺序与拆分前完全一致）
+     2. VN 表现层（音频 / 立绘 / CG / 背景 / 特效 / 引擎 / HUD）
+     3. adapter.js —— 必须最后加载，它用 VN 版本覆盖旧的渲染函数
+     ============================================================ -->
+<script src="news_data.js"></script>
+
+<!-- 一、数据与游戏逻辑 -->
+<script src="js/00-core.js"></script>
+<script src="js/01-state.js"></script>
+<script src="js/02-panels.js"></script>
+<script src="js/03-story.js"></script>
+<script src="js/04-story-days.js"></script>
+<script src="js/05-story-oct.js"></script>
+<script src="js/06-day-engine.js"></script>
+<script src="js/07-activities.js"></script>
+<script src="js/08-finance.js"></script>
+<script src="js/09-classmates-ui.js"></script>
+<script src="js/10-save-menus.js"></script>
+<script src="js/11-phone.js"></script>
+
+<!-- 二、视觉小说表现层 -->
+<script src="js/vn/audio.js"></script>
+<script src="js/vn/bgm_extra.js"></script>
+<script src="js/vn/sprites.js"></script>
+<script src="js/vn/cg.js"></script>
+<script src="js/vn/backgrounds.js"></script>
+<script src="js/vn/bg_extra_a.js"></script>
+<script src="js/vn/bg_extra_b.js"></script>
+<script src="js/vn/fx.js"></script>
+<script src="js/vn/engine.js"></script>
+<script src="js/vn/cats.js"></script>
+<script src="js/vn/hud.js"></script>
+
+<!-- 三、剧本适配层（必须最后） -->
+<script src="js/vn/adapter.js"></script>
+
+<script>
+/* ---------- 启动 ---------- */
+(function(){
+  function boot(){
+    try{
+      VN.init();
+      VNHUD.mount();
+      // 保留原初始化逻辑（读档 / 标题）
+      init();
+    }catch(e){
+      if(window.console)console.error('[BOOT]',e);
+      var el=document.getElementById('vn-text');
+      if(el)el.textContent='初始化失败：'+(e&&e.message);
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
+  else boot();
+})();
+</script>
+</body>
+</html>
